@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="edu.utexas.turnthepage.auth.LoginFragment"
+        android:label="Login" />
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="edu.utexas.turnthepage.auth.RegisterFragment"
+        android:label="Register" />
+
+    <fragment
+        android:id="@+id/bookSearchFragment"
+        android:name="edu.utexas.turnthepage.books.BookSearchFragment"
+        android:label="Book Search" />
+
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="edu.utexas.turnthepage.books.BookDetailFragment"
+        android:label="Book Detail" />
+
+    <fragment
+        android:id="@+id/goalsFragment"
+        android:name="edu.utexas.turnthepage.goals.GoalsFragment"
+        android:label="Goals" />
+
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="edu.utexas.turnthepage.reviews.ReviewFragment"
+        android:label="Review" />
+
+    <action
+        android:id="@+id/action_loginFragment_to_registerFragment"
+        app:destination="@id/registerFragment" />
+    <action
+        android:id="@+id/action_loginFragment_to_bookSearchFragment"
+        app:destination="@id/bookSearchFragment" />
+
+</navigation>
