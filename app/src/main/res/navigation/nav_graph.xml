@@ -16,7 +16,12 @@
     <fragment
         android:id="@+id/bookSearchFragment"
         android:name="edu.utexas.turnthepage.books.BookSearchFragment"
-        android:label="Book Search" />
+        android:label="Book Search" >
+
+        <action
+            android:id="@+id/action_bookSearchFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/bookDetailFragment"

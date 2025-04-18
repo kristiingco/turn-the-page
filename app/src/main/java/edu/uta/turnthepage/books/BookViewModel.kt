@@ -14,10 +14,18 @@ class BookViewModel : ViewModel() {
     private val _books = MutableLiveData<List<Book>>()
     val books: LiveData<List<Book>> = _books
 
+    private val _selectedBook = MutableLiveData<Book?>()
+    val selectedBook: LiveData<Book?> get() = _selectedBook
+
     fun searchBooks(query: String) {
         viewModelScope.launch {
             val result = repository.searchBooks(query)
             _books.postValue(result)
         }
     }
+
+    fun selectBook(book: Book) {
+        _selectedBook.value = book
+    }
 }
+
