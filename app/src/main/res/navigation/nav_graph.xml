@@ -39,5 +39,9 @@
     <action
         android:id="@+id/action_loginFragment_to_bookSearchFragment"
         app:destination="@id/bookSearchFragment" />
+    <action
+        android:id="@+id/action_registerFragment_to_loginFragment"
+        app:destination="@id/loginFragment" />
+
 
 </navigation>
