@@ -38,6 +38,16 @@
         android:name="edu.utexas.turnthepage.reviews.ReviewFragment"
         android:label="Review" />
 
+    <fragment
+        android:id="@+id/myBooksFragment"
+        android:name="edu.utexas.turnthepage.books.MyBooksFragment"
+        android:label="My Books">
+        <action
+            android:id="@+id/action_myBooksFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment"/>
+
+    </fragment>
+
     <action
         android:id="@+id/action_loginFragment_to_registerFragment"
         app:destination="@id/registerFragment" />

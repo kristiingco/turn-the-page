@@ -28,4 +28,27 @@ class FirestoreRepository {
             .addOnSuccessListener { onComplete(true) }
             .addOnFailureListener { onComplete(false) }
     }
+
+    fun getUserBooks(onComplete: (List<Pair<Book, BookStatus>>) -> Unit) {
+        firestore
+            .collection("users")
+            .document(userId)
+            .collection("books")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val result = snapshot.mapNotNull { doc ->
+                    val title = doc.getString("title") ?: return@mapNotNull null
+                    val author = doc.getString("author") ?: return@mapNotNull null
+                    val coverId = doc.getLong("coverId")?.toInt()
+                    val statusStr = doc.getString("status") ?: return@mapNotNull null
+                    val status = BookStatus.valueOf(statusStr)
+                    Pair(Book(title, author, coverId), status)
+                }
+                onComplete(result)
+            }
+            .addOnFailureListener {
+                onComplete(emptyList())
+            }
+    }
+
 }
