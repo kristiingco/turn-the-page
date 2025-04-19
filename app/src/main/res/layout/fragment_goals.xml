@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/goalStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal: 0 books"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/goalInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter goal (e.g. 12)"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/saveGoalButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Goal"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/finishedCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Books finished: 0"
+        android:textSize="16sp"
+        android:layout_marginTop="24dp" />
+
+    <ProgressBar
+        android:id="@+id/goalProgress"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="0"
+        android:max="100"
+        android:layout_marginTop="8dp" />
+</LinearLayout>

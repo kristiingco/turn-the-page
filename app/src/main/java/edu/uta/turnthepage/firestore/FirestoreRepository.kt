@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.utexas.turnthepage.model.Book
 import edu.utexas.turnthepage.model.BookStatus
+import edu.utexas.turnthepage.model.Goal
 import edu.utexas.turnthepage.model.Review
 
 class FirestoreRepository {
@@ -109,6 +110,36 @@ class FirestoreRepository {
                     onComplete(
                         Review(userId, book.title, book.author, rating, comment, timestamp)
                     )
+                } else {
+                    onComplete(null)
+                }
+            }
+            .addOnFailureListener { onComplete(null) }
+    }
+
+    fun setGoal(goal: Goal, onComplete: (Boolean) -> Unit) {
+        firestore
+            .collection("users")
+            .document(userId)
+            .collection("meta")
+            .document("goal")
+            .set(goal)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
+    fun getGoal(onComplete: (Goal?) -> Unit) {
+        firestore
+            .collection("users")
+            .document(userId)
+            .collection("meta")
+            .document("goal")
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val targetCount = doc.getLong("targetCount")?.toInt() ?: 0
+                    val year = doc.getLong("year")?.toInt() ?: 2025
+                    onComplete(Goal(userId, targetCount, year))
                 } else {
                     onComplete(null)
                 }
