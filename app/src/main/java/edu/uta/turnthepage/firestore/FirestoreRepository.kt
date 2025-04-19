@@ -53,14 +53,19 @@ class FirestoreRepository {
     }
 
     fun submitReview(review: Review, onComplete: (Boolean) -> Unit) {
-        val bookId = "${review.bookTitle}|${review.bookAuthor}"
-        firestore
-            .collection("books")
-            .document(bookId)
-            .collection("reviews")
-            .add(review)
-            .addOnSuccessListener { onComplete(true) }
-            .addOnFailureListener { onComplete(false) }
+        fun submitReview(review: Review, onComplete: (Boolean) -> Unit) {
+            val bookId = "${review.bookTitle}|${review.bookAuthor}"
+
+            firestore
+                .collection("books")
+                .document(bookId)
+                .collection("reviews")
+                .document(review.userId)
+                .set(review)
+                .addOnSuccessListener { onComplete(true) }
+                .addOnFailureListener { onComplete(false) }
+        }
+
     }
 
     fun getReviewsForBook(book: Book, onComplete: (List<Review>) -> Unit) {
@@ -86,5 +91,30 @@ class FirestoreRepository {
                 onComplete(emptyList())
             }
     }
+
+    fun getUserReviewForBook(book: Book, userId: String, onComplete: (Review?) -> Unit) {
+        val bookId = "${book.title}|${book.author}"
+
+        firestore
+            .collection("books")
+            .document(bookId)
+            .collection("reviews")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val rating = doc.getLong("rating")?.toInt() ?: 0
+                    val comment = doc.getString("comment") ?: ""
+                    val timestamp = doc.getLong("timestamp") ?: 0L
+                    onComplete(
+                        Review(userId, book.title, book.author, rating, comment, timestamp)
+                    )
+                } else {
+                    onComplete(null)
+                }
+            }
+            .addOnFailureListener { onComplete(null) }
+    }
+
 
 }

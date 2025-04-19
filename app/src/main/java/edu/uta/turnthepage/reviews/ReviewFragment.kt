@@ -16,28 +16,43 @@ class ReviewFragment : Fragment() {
     private val viewModel: BookViewModel by activityViewModels()
     private val firestoreRepo = FirestoreRepository()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentReviewBinding.inflate(inflater, container, false)
 
-        binding.submitReviewButton.setOnClickListener {
-            val rating = binding.ratingBar.rating.toInt()
-            val comment = binding.commentInput.text.toString().trim()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return binding.root
+        val book = viewModel.selectedBook.value ?: return binding.root
 
-            val book = viewModel.selectedBook.value ?: return@setOnClickListener
-            val review = Review(
-                userId = FirebaseAuth.getInstance().currentUser?.uid ?: "anonymous",
-                bookTitle = book.title,
-                bookAuthor = book.author,
-                rating = rating,
-                comment = comment
-            )
+        firestoreRepo.getUserReviewForBook(book, userId) { existingReview ->
+            existingReview?.let {
+                binding.ratingBar.rating = it.rating.toFloat()
+                binding.commentInput.setText(it.comment)
+            }
 
-            firestoreRepo.submitReview(review) { success ->
-                val msg = if (success) "Review submitted!" else "Failed to submit review"
-                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-                if (success) requireActivity().onBackPressedDispatcher.onBackPressed()
+            binding.submitReviewButton.setOnClickListener {
+                val rating = binding.ratingBar.rating.toInt()
+                val comment = binding.commentInput.text.toString().trim()
+
+                val review = Review(
+                    userId = userId,
+                    bookTitle = book.title,
+                    bookAuthor = book.author,
+                    rating = rating,
+                    comment = comment,
+                    timestamp = System.currentTimeMillis()
+                )
+
+                firestoreRepo.submitReview(review) { success ->
+                    val msg = if (success) "Review updated!" else "Failed to submit"
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                    if (success) requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
+
 
         return binding.root
     }
