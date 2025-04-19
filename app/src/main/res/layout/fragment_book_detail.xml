@@ -49,5 +49,22 @@
             android:layout_height="wrap_content"
             android:text="Write Review"
             android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/reviewHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reviews"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
     </LinearLayout>
 </ScrollView>

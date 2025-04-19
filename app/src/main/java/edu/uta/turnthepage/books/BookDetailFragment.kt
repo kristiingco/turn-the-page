@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import edu.utexas.turnthepage.R
 import edu.utexas.turnthepage.databinding.FragmentBookDetailBinding
 import edu.utexas.turnthepage.model.BookStatus
 import edu.utexas.turnthepage.repository.FirestoreRepository
+import edu.utexas.turnthepage.reviews.ReviewAdapter
 import edu.utexas.turnthepage.viewmodel.BookViewModel
 
 class BookDetailFragment : Fragment() {
@@ -35,6 +39,19 @@ class BookDetailFragment : Fragment() {
 
         binding.addToListButton.setOnClickListener {
             showStatusDialog()
+        }
+
+        binding.writeReviewButton.setOnClickListener {
+            findNavController().navigate(R.id.action_bookDetailFragment_to_reviewFragment)
+        }
+
+        binding.reviewRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.selectedBook.value?.let { book ->
+            firestoreRepo.getReviewsForBook(book) { reviews ->
+                val adapter = ReviewAdapter(reviews)
+                binding.reviewRecycler.adapter = adapter
+            }
         }
 
 

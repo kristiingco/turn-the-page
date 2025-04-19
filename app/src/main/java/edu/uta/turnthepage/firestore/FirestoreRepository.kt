@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.utexas.turnthepage.model.Book
 import edu.utexas.turnthepage.model.BookStatus
+import edu.utexas.turnthepage.model.Review
 
 class FirestoreRepository {
     private val firestore = FirebaseFirestore.getInstance()
@@ -45,6 +46,41 @@ class FirestoreRepository {
                     Pair(Book(title, author, coverId), status)
                 }
                 onComplete(result)
+            }
+            .addOnFailureListener {
+                onComplete(emptyList())
+            }
+    }
+
+    fun submitReview(review: Review, onComplete: (Boolean) -> Unit) {
+        val bookId = "${review.bookTitle}|${review.bookAuthor}"
+        firestore
+            .collection("books")
+            .document(bookId)
+            .collection("reviews")
+            .add(review)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
+    fun getReviewsForBook(book: Book, onComplete: (List<Review>) -> Unit) {
+        val bookId = "${book.title}|${book.author}"
+
+        firestore
+            .collection("books")
+            .document(bookId)
+            .collection("reviews")
+            .orderBy("timestamp")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val reviews = snapshot.mapNotNull { doc ->
+                    val rating = doc.getLong("rating")?.toInt() ?: return@mapNotNull null
+                    val comment = doc.getString("comment") ?: ""
+                    val userId = doc.getString("userId") ?: "anon"
+                    val timestamp = doc.getLong("timestamp") ?: 0L
+                    Review(userId, book.title, book.author, rating, comment, timestamp)
+                }
+                onComplete(reviews)
             }
             .addOnFailureListener {
                 onComplete(emptyList())
