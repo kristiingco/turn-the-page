@@ -26,7 +26,11 @@
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="edu.utexas.turnthepage.books.BookDetailFragment"
-        android:label="Book Detail" />
+        android:label="Book Detail">
+        <action
+            android:id="@+id/action_bookDetailFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/goalsFragment"
@@ -48,9 +52,7 @@
 
     </fragment>
 
-    <action
-        android:id="@+id/action_bookDetailFragment_to_reviewFragment"
-        app:destination="@id/reviewFragment" />
+
 
     <action
         android:id="@+id/action_loginFragment_to_registerFragment"
@@ -62,5 +64,8 @@
         android:id="@+id/action_registerFragment_to_loginFragment"
         app:destination="@id/loginFragment" />
 
+    <action
+        android:id="@+id/action_goalsFragment_to_bookDetailFragment"
+        app:destination="@id/bookDetailFragment" />
 
 </navigation>
