@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "618248665350",
+    "project_id": "turn-the-page-c666b",
+    "storage_bucket": "turn-the-page-c666b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618248665350:android:e2e68bebf9e6163d878687",
+        "android_client_info": {
+          "package_name": "edu.utexas.turnthepage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1ghwbPP2WBLVFqjvjKS0-ihmBnCT_cM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
