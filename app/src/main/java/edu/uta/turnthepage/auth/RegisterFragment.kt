@@ -23,26 +23,20 @@ class RegisterFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.registerButton.setOnClickListener {
-            val email = binding.emailInput.text.toString().trim()
-            val password = binding.passwordInput.text.toString().trim()
-            val confirm = binding.confirmPasswordInput.text.toString().trim()
+            val email = binding.emailInput.text.toString()
+            val password = binding.passwordInput.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                if (password == confirm) {
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Account created!", Toast.LENGTH_SHORT).show()
-                            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(context, "Failed: ${it.message}", Toast.LENGTH_LONG).show()
-                        }
-                } else {
-                    Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    val user = auth.currentUser
+                    if (task.isSuccessful && user != null) {
+                        Toast.makeText(context, "Account created successfully! Please log in!", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                    } else {
+                        Toast.makeText(requireContext(), "Registration failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            } else {
-                Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
-            }
+
         }
 
         binding.toLogin.setOnClickListener {

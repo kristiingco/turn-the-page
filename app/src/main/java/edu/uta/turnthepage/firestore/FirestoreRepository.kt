@@ -9,7 +9,10 @@ import edu.utexas.turnthepage.model.Review
 
 class FirestoreRepository {
     private val firestore = FirebaseFirestore.getInstance()
-    private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "anonymous"
+    private val userId: String
+        get() = FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("User not logged in")
+
 
     fun saveBookStatus(book: Book, status: BookStatus, onComplete: (Boolean) -> Unit) {
         val bookId = "${book.title}|${book.author}"
@@ -53,21 +56,20 @@ class FirestoreRepository {
             }
     }
 
+
     fun submitReview(review: Review, onComplete: (Boolean) -> Unit) {
-        fun submitReview(review: Review, onComplete: (Boolean) -> Unit) {
-            val bookId = "${review.bookTitle}|${review.bookAuthor}"
+        val bookId = "${review.bookTitle}|${review.bookAuthor}"
 
-            firestore
-                .collection("books")
-                .document(bookId)
-                .collection("reviews")
-                .document(review.userId)
-                .set(review)
-                .addOnSuccessListener { onComplete(true) }
-                .addOnFailureListener { onComplete(false) }
-        }
-
+        firestore
+            .collection("books")
+            .document(bookId)
+            .collection("reviews")
+            .document(review.userId)
+            .set(review)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
     }
+
 
     fun getReviewsForBook(book: Book, onComplete: (List<Review>) -> Unit) {
         val bookId = "${book.title}|${book.author}"

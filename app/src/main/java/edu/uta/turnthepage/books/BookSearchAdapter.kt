@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import edu.utexas.turnthepage.databinding.RowBookBinding
 import edu.utexas.turnthepage.model.Book
 
@@ -31,6 +32,7 @@ class BookSearchAdapter(
             binding.authorText.text = book.author
             Glide.with(binding.coverImage.context)
                 .load(book.getCoverUrl())
+                .transform(RoundedCorners(16))
                 .into(binding.coverImage)
         }
     }

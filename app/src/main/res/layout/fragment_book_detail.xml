@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_marginTop="56dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <ImageView
             android:id="@+id/bookCover"
             android:layout_width="200dp"
             android:layout_height="300dp"
-            android:scaleType="centerCrop"
+            android:layout_marginBottom="24dp"
             android:contentDescription="Book Cover"
-            android:layout_marginBottom="24dp" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/bookTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Title"
             android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bookAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text="Author"
-            android:textSize="16sp"
             android:textColor="#666666"
-            android:layout_marginBottom="24dp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/addToListButton"
@@ -47,24 +48,39 @@
             android:id="@+id/writeReviewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Write Review"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:text="Write Review" />
 
         <TextView
-            android:id="@+id/reviewHeader"
+            android:id="@+id/yourReviewHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reviews"
-            android:textSize="18sp"
+            android:text="Your Review"
             android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp" />
+            android:visibility="gone"
+            android:layout_marginTop="24dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reviewRecycler"
+        <LinearLayout
+            android:id="@+id/yourReviewContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+            android:orientation="vertical"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/allReviewsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="All Reviews"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <LinearLayout
+            android:id="@+id/allReviewsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
 
     </LinearLayout>
 </ScrollView>

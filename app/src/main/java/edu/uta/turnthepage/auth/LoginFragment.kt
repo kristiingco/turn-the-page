@@ -23,23 +23,20 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.loginButton.setOnClickListener {
-            val email = binding.emailInput.text.toString().trim()
-            val password = binding.passwordInput.text.toString().trim()
+            val email = binding.emailInput.text.toString()
+            val password = binding.passwordInput.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "Welcome back!", Toast.LENGTH_SHORT).show()
-                        // Navigate to the main screen (e.g., book search)
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful && auth.currentUser != null) {
                         findNavController().navigate(R.id.action_loginFragment_to_bookSearchFragment)
+                    } else {
+                        binding.loginButton.isEnabled = true
+                        Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT).show()
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(context, "Login failed: ${it.message}", Toast.LENGTH_LONG).show()
-                    }
-            } else {
-                Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
-            }
+                }
         }
+
 
         binding.toRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)

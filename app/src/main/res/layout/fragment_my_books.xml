@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_marginTop="?attr/actionBarSize"
+    >
 
     <LinearLayout
         android:id="@+id/statusFilterRow"
@@ -12,7 +14,8 @@
         android:layout_marginBottom="12dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="4"
+        android:layout_marginTop="56dp" >
 
         <Button
             android:id="@+id/filterToRead"
